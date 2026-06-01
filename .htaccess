@@ -1,0 +1,14 @@
+# Ativa o módulo de reescrita de URLs
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Se o projeto estiver na raiz de um Virtual Host (ex: http://loja9952.test), use:
+    # RewriteBase /
+    # Se o projeto estiver numa subpasta do localhost (ex: http://localhost/loja9952), use:
+    RewriteBase /loja9952/
+
+    # Redireciona todas as requisições que não são para arquivos ou diretórios existentes para o index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

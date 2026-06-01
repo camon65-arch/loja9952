@@ -1,26 +1,5 @@
 <?php // templates/veiculos/catalogo.php ?>
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <title><?= htmlspecialchars($titulo, ENT_QUOTES, 'UTF-8') ?></title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width:1100px; margin:0 auto; padding:20px; }
-        .filtros { background:#f0f4f8; padding:16px; border-radius:8px; margin-bottom:24px; display:flex; gap:12px; flex-wrap:wrap; }
-        .filtros input, .filtros select { padding:8px; border:1px solid #ccc; border-radius:4px; }
-        .filtros button { background:#1565C0; color:#fff; padding:8px 18px; border:none; border-radius:4px; cursor:pointer; }
-        .grelha { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
-        .card { border:1px solid #ddd; border-radius:8px; overflow:hidden; transition:box-shadow .2s; }
-        .card:hover { box-shadow:0 4px 16px rgba(0,0,0,.12); }
-        .card img { width:100%; height:180px; object-fit:cover; background:#eee; }
-        .card-body { padding:14px; }
-        .card-body h3 { margin:0 0 6px; font-size:1rem; color:#1A237E; }
-        .preco { font-size:1.3rem; font-weight:bold; color:#1565C0; }
-        .detalhe { display:inline-block; margin-top:10px; background:#1565C0; color:#fff;
-                   padding:7px 14px; border-radius:4px; text-decoration:none; font-size:.9rem; }
-    </style>
-</head>
-<body>
+<?php require __DIR__ . '/../header.php'; ?>
     <h1>AutoShop - Catálogo de Veículos</h1>
 
     <form class="filtros" method="GET" action="">
@@ -58,12 +37,19 @@
     <?php foreach ($veiculos as $v): ?>
         <div class="card">
             <img src="<?= !empty($v['imagem']) ? '/uploads/'.htmlspecialchars($v['imagem'], ENT_QUOTES, 'UTF-8') : '/img/placeholder.png' ?>"
-                 alt="<?= htmlspecialchars($v['marca'].' '.$v['modelo'], ENT_QUOTES, 'UTF-8') ?>">
+                 alt="<?= htmlspecialchars($v['marca'].' '.$v['modelo'], ENT_QUOTES, 'UTF-8') ?>" onerror="this.onerror=null;this.src='<?= BASE_URL ?>/img/placeholder.png';">
             <div class="card-body">
                 <h3><?= htmlspecialchars($v['marca'].' '.$v['modelo'], ENT_QUOTES, 'UTF-8') ?></h3>
                 <p><?= htmlspecialchars((string) $v['ano'], ENT_QUOTES, 'UTF-8') ?> · <?= number_format((float) $v['quilometros'], 0, '.', '.') ?> km · <?= htmlspecialchars($v['combustivel'], ENT_QUOTES, 'UTF-8') ?></p>
                 <div class="preco"><?= number_format((float) $v['preco'], 2, ',', '.') ?> €</div>
-                <a class="detalhe" href="/veiculo/detalhe/<?= (int) $v['id'] ?>">Ver detalhe</a>
+                <a class="detalhe" href="<?= BASE_URL ?>/veiculo/detalhe/<?= (int) $v['id'] ?>">Ver detalhe</a>
+                <form action="<?= BASE_URL ?>/carrinho/adicionar" method="POST" style="display:inline-block; margin-left: 10px;">
+                    <input type="hidden" name="veiculo_id" value="<?= (int) $v['id'] ?>">
+                    <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+                    <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-size:.9rem;">
+                        Adicionar
+                    </button>
+                </form>
             </div>
         </div>
     <?php endforeach ?>

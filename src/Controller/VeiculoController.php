@@ -25,7 +25,7 @@ class VeiculoController {
 
         $veiculos = $this->model->listar($filtros);
         $marcas   = $this->model->getMarcas();
-        $titulo   = 'Catálogo de Veículos';
+        $titulo   = 'Catalogo de Veiculos';
 
         require dirname(__DIR__, 2).'/templates/veiculos/catalogo.php';
     }
@@ -33,27 +33,19 @@ class VeiculoController {
     public function detalhe(int $id): void {
         if ($id <= 0) {
             http_response_code(404);
-            echo 'Veículo não encontrado.';
+            echo 'Veiculo nao encontrado.';
             return;
         }
 
         $veiculo = $this->model->getById($id);
         if ($veiculo === false) {
             http_response_code(404);
-            echo 'Veículo não encontrado.';
+            echo 'Veiculo nao encontrado.';
             return;
         }
 
-        $nome = htmlspecialchars($veiculo['marca'].' '.$veiculo['modelo'], ENT_QUOTES, 'UTF-8');
-        $preco = number_format((float) $veiculo['preco'], 2, ',', '.');
-        $ano = htmlspecialchars((string) $veiculo['ano'], ENT_QUOTES, 'UTF-8');
-        $combustivel = htmlspecialchars((string) $veiculo['combustivel'], ENT_QUOTES, 'UTF-8');
+        $titulo = $veiculo['marca'].' '.$veiculo['modelo'];
 
-        echo "<!DOCTYPE html><html lang=\"pt\"><head><meta charset=\"UTF-8\"><title>{$nome}</title></head><body>";
-        echo "<h1>{$nome}</h1>";
-        echo "<p>{$ano} · {$combustivel}</p>";
-        echo "<p><strong>{$preco} €</strong></p>";
-        echo '<p><a href="/">Voltar ao catálogo</a></p>';
-        echo '</body></html>';
+        require dirname(__DIR__, 2).'/templates/veiculos/detalhe.php';
     }
 }

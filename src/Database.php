@@ -21,7 +21,7 @@ class Database {
         $pass = $_ENV['DB_PASS'] ?? '';
 
         if ($name === '') {
-            throw new PDOException('DB_NAME nao esta definido no ficheiro .env.');
+            throw new PDOException('Configuração inválida: DB_NAME não definido no ficheiro .env na raiz do projeto.');
         }
 
         $dsn = "mysql:host={$host};port={$port};dbname={$name};charset=utf8mb4";
@@ -39,16 +39,17 @@ class Database {
         $envFile = dirname(__DIR__).'/.env';
 
         if (!is_file($envFile)) {
-            return;
+            throw new PDOException('Ficheiro .env não encontrado em: ' . $envFile);
         }
 
         $env = parse_ini_file($envFile, false, INI_SCANNER_RAW);
         if ($env === false) {
-            return;
+            throw new PDOException('Erro ao analisar o ficheiro .env. Verifique a sua sintaxe.');
         }
 
         foreach ($env as $key => $value) {
-            $_ENV[$key] = $value;
+            $_ENV[$key] = trim($value);
+            putenv("$key=" . trim($value));
         }
     }
 }
