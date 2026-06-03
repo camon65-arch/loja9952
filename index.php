@@ -47,6 +47,18 @@ elseif (strpos($path, '/veiculo/detalhe') !== false) {
     $id = (int) ($_GET['id'] ?? ($partes[2] ?? 0));
     (new App\Controller\VeiculoController())->detalhe($id);
 }
+elseif ($path === '/login') {
+    (new App\Controller\AuthController())->login();
+}
+elseif ($path === '/registar') {
+    (new App\Controller\AuthController())->registar();
+}
+elseif ($path === '/logout') {
+    (new App\Controller\AuthController())->logout();
+}
+elseif ($path === '/conta') {
+    (new App\Controller\ContaController())->ver();
+}
 elseif (strpos($path, '/carrinho/adicionar') !== false) {
     (new App\Controller\CarrinhoController())->adicionar();
 }

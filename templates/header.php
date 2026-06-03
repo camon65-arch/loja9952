@@ -39,6 +39,7 @@ $total_carrinho = count($_SESSION['carrinho'] ?? []);
             <a href="<?= BASE_URL ?>/logout" style="color:#ccc;text-decoration:none;">Sair</a>
         <?php else: ?>
             <a href="<?= BASE_URL ?>/login" style="color:#fff;text-decoration:none;">Entrar</a>
+            <a href="<?= BASE_URL ?>/registar" style="color:#fff;text-decoration:none;">Criar cliente</a>
         <?php endif ?>
     </nav>
 </header>
