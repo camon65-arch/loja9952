@@ -4,6 +4,7 @@
     <h1 class="mb-4"><?php echo $titulo; ?></h1>
 
     <div class="row">
+        <!-- Lista de Veículos a Reservar -->
         <div class="col-md-8">
             <div class="card mb-4 shadow-sm">
                 <div class="card-header bg-light">
@@ -34,22 +35,34 @@
                     </table>
                 </div>
             </div>
-            <div class="alert alert-info">
-                <strong>Warning:</strong> Ao confirmar, o veículo será reservado na sua conta e ficará marcado como "Reservado" no catálogo.
+
+            <div class="alert alert-info border-info">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                <strong>Warning:</strong> Esta é uma reserva simulada — sem pagamento online.
             </div>
         </div>
 
+        <!-- Formulário de Confirmação -->
         <div class="col-md-4">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <form action="<?php echo BASE_URL; ?>/checkout/confirmar" method="POST">
                         <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+                        
                         <div class="mb-3">
-                            <label class="form-label">Mensagem para o vendedor</label>
-                            <textarea name="mensagem" class="form-control" rows="4"></textarea>
+                            <label for="mensagem" class="form-label">Informações adicionais para o vendedor</label>
+                            <textarea name="mensagem" id="mensagem" class="form-control" rows="5" 
+                                      placeholder="Ex: Horário preferencial para contacto..."></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success btn-lg w-100">adicionar á minha conta</button>
-                        <a href="<?php echo BASE_URL; ?>/" class="btn btn-link w-100 mt-2">Voltar ao catálogo</a>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Adicionar á reserva
+                            </button>
+                            <a href="<?php echo BASE_URL; ?>/" class="btn btn-outline-secondary">
+                                Voltar ao catálogo
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>

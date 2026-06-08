@@ -59,6 +59,9 @@ elseif ($path === '/logout') {
 elseif ($path === '/conta') {
     (new App\Controller\ContaController())->ver();
 }
+elseif ($path === '/conta/cancelar-reserva') {
+    (new App\Controller\ContaController())->cancelarReserva();
+}
 elseif (strpos($path, '/carrinho/adicionar') !== false) {
     (new App\Controller\CarrinhoController())->adicionar();
 }
@@ -67,4 +70,10 @@ elseif (strpos($path, '/carrinho/remover') !== false) {
 }
 elseif (strpos($path, '/carrinho') !== false) {
     (new App\Controller\CarrinhoController())->ver();
+}
+elseif ($path === '/checkout') {
+    (new App\Controller\CheckoutController())->ver();
+}
+elseif ($path === '/checkout/confirmar') {
+    (new App\Controller\CheckoutController())->confirmar();
 }

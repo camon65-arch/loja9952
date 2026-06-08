@@ -13,7 +13,9 @@ class VeiculoModel {
  
     // Listar com filtros opcionais
     public function listar(array $filtros = []): array {
-        $sql    = 'SELECT v.*, m.nome AS marca FROM veiculos v
+        $sql    = 'SELECT v.*, m.nome AS marca, 
+                   (SELECT COUNT(*) FROM reservas r WHERE r.veiculo_id = v.id) as is_reservado
+                   FROM veiculos v
                    JOIN marcas m ON m.id = v.marca_id
                    WHERE v.disponivel = 1';
         $params = [];
@@ -48,7 +50,9 @@ class VeiculoModel {
  
     public function getById(int $id): array|false {
         $stmt = $this->db->prepare(
-            'SELECT v.*, m.nome AS marca FROM veiculos v
+            'SELECT v.*, m.nome AS marca,
+             (SELECT COUNT(*) FROM reservas r WHERE r.veiculo_id = v.id) as is_reservado
+             FROM veiculos v
              JOIN marcas m ON m.id = v.marca_id WHERE v.id = :id'
         );
         $stmt->execute([':id' => $id]);

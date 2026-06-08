@@ -36,12 +36,15 @@ class CarrinhoController {
         csrf_validar();
         $id = (int) ($_POST['veiculo_id'] ?? 0);
         if ($id > 0) {
+            $veiculo = $this->model->getById($id);
             $carrinho = $_SESSION['carrinho'] ?? [];
-            if (!in_array($id, $carrinho)) {
+            if ($veiculo && $veiculo['is_reservado'] > 0) {
+                $_SESSION['msg_erro'] = 'Desculpe, este veículo já foi reservado por outro cliente.';
+            } elseif ($veiculo && !in_array($id, $carrinho)) {
                 $carrinho[] = $id;
                 $_SESSION['carrinho'] = $carrinho;
                 $_SESSION['msg_ok']   = 'Veículo adicionado à lista!';
-            } else {
+            } elseif ($veiculo) {
                 $_SESSION['msg_info'] = 'Este veículo já está na tua lista.';
             }
         }

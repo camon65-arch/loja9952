@@ -5,6 +5,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use App\Controller\CarrinhoController;
 use App\Controller\AuthController;
 use App\Controller\ContaController;
+use App\Controller\CheckoutController;
 use App\Controller\VeiculoController;
 use App\Controller\ErrorController;
 
@@ -51,6 +52,8 @@ match (true) {
     $route === '/conta'             => (new ContaController())->ver(),
     $route === '/carrinho'          => (new CarrinhoController())->ver(),
     $route === '/carrinho/adicionar'=> (new CarrinhoController())->adicionar(),
+    $route === '/checkout'          => (new CheckoutController())->ver(),
+    $route === '/checkout/confirmar'=> (new CheckoutController())->confirmar(),
     $route === '/carrinho/remover'  => (new CarrinhoController())->remover(),
     strpos($route, '/veiculo/detalhe/') === 0 => (function() use ($route) {
         $id = (int)explode('/', $route)[3];

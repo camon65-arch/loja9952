@@ -7,9 +7,7 @@
     <div style="display: flex; gap: 40px; margin-top: 20px; flex-wrap: wrap; margin-bottom: 30px;">
         <!-- Espaço para a Foto -->
         <div style="flex: 1; min-width: 300px;">
-            <img src="<?= BASE_URL ?>/uploads/<?= htmlspecialchars($veiculo['imagem'] ?? 'placeholder.png') ?>"
-                 alt="<?= htmlspecialchars($veiculo['marca'].' '.$veiculo['modelo']) ?>" 
-                 style="width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <?php render_carrossel_veiculo($veiculo, 'carrossel--detalhe'); ?>
         </div>
 
         <!-- Informações e Ações -->

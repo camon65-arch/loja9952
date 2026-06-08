@@ -39,7 +39,7 @@
         </div>
         
         <button type="submit" style="background: #1565C0; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold;">
-            Registar Conta
+            Adicionar á reserva
         </button>
     </form>
     <p style="margin-top: 20px; text-align: center;">Já tem uma conta? <a href="<?= BASE_URL ?>/login">Inicie sessão aqui</a>.</p>

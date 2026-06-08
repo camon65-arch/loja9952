@@ -1,64 +1,64 @@
-<?php // templates/carrinho/ver.php ?>
-<?php require __DIR__ . '/../header.php'; ?>
-    <h1><?= htmlspecialchars($titulo, ENT_QUOTES, 'UTF-8') ?></h1>
+<?php require_once dirname(__DIR__) . '/header.php'; ?>
 
-    <p><a href="<?= BASE_URL ?>/">Voltar ao catalogo</a></p>
+<div class="container my-5">
+    <h1 class="mb-4"><?php echo $titulo; ?></h1>
 
-    <?php if (!empty($_SESSION['msg_ok'])): ?>
-        <p style="color:green;"><?= htmlspecialchars($_SESSION['msg_ok'], ENT_QUOTES, 'UTF-8') ?></p>
-        <?php unset($_SESSION['msg_ok']); ?>
-    <?php endif ?>
-
-    <?php if (!empty($_SESSION['msg_info'])): ?>
-        <p style="color:#555;"><?= htmlspecialchars($_SESSION['msg_info'], ENT_QUOTES, 'UTF-8') ?></p>
-        <?php unset($_SESSION['msg_info']); ?>
-    <?php endif ?>
-
-    <?php if (empty($veiculos)): ?>
-        <p>A tua lista de reservas está vazia.</p>
-    <?php else: ?>
-        <div class="resumo-lista">
-            Tens <strong><?= count($veiculos) ?></strong> veículo(s) na tua lista.
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Resumo da Reserva (<?php echo count($veiculos); ?> veículo(s))</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 150px;">Imagem</th>
+                                <th>Veículo</th>
+                                <th class="text-end">Preço</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($veiculos as $v): ?>
+                            <tr>
+                                <td class="align-middle">
+                                    <?php render_carrossel_veiculo($v, 'carrossel--carrinho'); ?>
+                                </td>
+                                <td>
+                                    <strong><?php echo htmlspecialchars($v['marca'] . ' ' . $v['modelo']); ?></strong>
+                                    <br>
+                                    <small class="text-muted">Ano: <?php echo $v['ano']; ?></small>
+                                </td>
+                                <td class="text-end align-middle">
+                                    <?php echo number_format($v['preco'], 2, ',', '.'); ?> €
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <strong>Warning:</strong> Ao confirmar, o veículo será reservado na sua conta e ficará marcado como "Reservado" no catálogo.
+            </div>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Foto</th>
-                    <th>Veiculo</th>
-                    <th>Preco</th>
-                    <th>Acao</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($veiculos as $v): ?>
-                <tr>
-                    <td>
-                        <img src="<?= BASE_URL ?>/img/veiculos/<?= htmlspecialchars($v['foto'] ?? 'default.jpg', ENT_QUOTES, 'UTF-8') ?>" alt="Foto" class="img-carrinho">
-                    </td>
-                    <td>
-                        <a href="<?= BASE_URL ?>/veiculo/detalhe/<?= (int) $v['id'] ?>">
-                            <?= htmlspecialchars($v['marca'].' '.$v['modelo'], ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                    </td>
-                    <td class="preco"><?= number_format((float) $v['preco'], 2, ',', '.') ?> EUR</td>
-                    <td>
-                        <form method="POST" action="<?= BASE_URL ?>/carrinho/remover">
-                            <input type="hidden" name="veiculo_id" value="<?= (int) $v['id'] ?>">
-                            <?php if (function_exists('csrf_token')): ?>
-                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
-                            <?php endif ?>
-                            <button class="botao remover" type="submit">Remover</button>
-                        </form>
-                    </td>
-                </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-
-        <div style="text-align: right; margin-top: 30px;">
-            <a href="<?= BASE_URL ?>/checkout" class="botao btn-checkout">Prosseguir para reserva</a>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form action="<?php echo BASE_URL; ?>/checkout/confirmar" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+                        <div class="mb-3">
+                            <label class="form-label">Mensagem para o vendedor</label>
+                            <textarea name="mensagem" class="form-control" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg w-100">adicionar á minha conta</button>
+                        <a href="<?php echo BASE_URL; ?>/" class="btn btn-link w-100 mt-2">Voltar ao catálogo</a>
+                    </form>
+                </div>
+            </div>
         </div>
-    <?php endif ?>
-</body>
-</html>
+    </div>
+</div>
+
+<?php require_once dirname(__DIR__) . '/footer.php'; ?>
